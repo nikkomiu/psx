@@ -1,9 +1,8 @@
 {
     "name": "ps1",
     "dockerFile": "Dockerfile",
-    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/ps1,type=bind,consistency=cached",
     "workspaceFolder": "/workspaces/ps1",
-    "postCreateCommand": "mkdir -p /workspaces/third_party && ln -s /var/lib/psyq /workspaces/third_party/psyq",
+    "postCreateCommand": "sudo mkdir -p /workspaces/third_party && sudo ln -s /var/lib/psyq /workspaces/third_party/psyq",
     "customizations": {
         "vscode": {
             "extensions": [

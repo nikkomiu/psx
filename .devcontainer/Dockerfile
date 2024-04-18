@@ -2,11 +2,20 @@ FROM ubuntu
 
 RUN apt-get update && apt-get install -y \
     sudo curl wget zsh language-pack-en \
-    g++-mipsel-linux-gnu \
-    gdb-multiarch \
-    git make \
+    build-essential git make cmake \
+    g++-mipsel-linux-gnu gdb-multiarch \
     gzip p7zip-full && \
     update-locale LANG=en_US.UTF-8
+
+# Install ARMIPS
+RUN git clone --recursive https://github.com/Kingcom/armips.git && \
+    mkdir -p armips/build && \
+    cd armips/build && \
+    cmake -DCMAKE_BUILD_TYPE=Release .. && \
+    cmake --build . && \
+    cp armips /usr/local/bin && \
+    cd ../.. && \
+    rm -rf armips
 
 # Install PsyQ
 RUN wget http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z && \
