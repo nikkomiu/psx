@@ -1,3 +1,26 @@
-#!/bin/sh
+#!/bin/bash
 
-cd /usr/local/pcsx-redux/usr/share/pcsx-redux/ && /usr/local/pcsx-redux/AppRun
+ARGS=$@
+
+cd /usr/local/pcsx-redux/usr/share/pcsx-redux/
+
+launch()
+{
+    DISPLAY=$1 /usr/local/pcsx-redux/AppRun $ARGS
+    if [ $? = "0" ]; then
+        exit 0
+    fi
+}
+
+echo "Starting pcsx-redux..."
+launch $DISPLAY
+
+for f in /tmp/.X11-unix/*; do
+    DSP=:$(basename ${f//X/})
+    if [ $DISPLAY = $DSP ]; then
+        continue
+    fi
+
+    echo "DISPLAY env var seems to be invalid! Attempting to use $DSP instead..."
+    launch $DSP
+done

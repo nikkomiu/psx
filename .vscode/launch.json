@@ -1,29 +1,30 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "Debug 04-gpu",
-        "type": "gdb",
-        "request": "attach",
-        "target": "localhost:3333",
-        "remote": true,
-        "cwd": "${workspaceRoot}",
-        "valuesFormatting": "parseText",
-        "stopAtConnect": true,
-        "gdbpath": "gdb-multiarch",
-        "windows": {
-          "gdbpath": "gdb-multiarch.exe"
-        },
-        "osx": {
-          "gdbpath": "gdb"
-        },
-        "executable": "${workspaceRoot}/04-gpu/gpu.elf",
-        "autorun": [
-          "monitor reset shellhalt",
-          "load ${workspaceRoot}/04-gpu/gpu.elf",
-          "tbreak main",
-          "continue"
-        ]
-      }
-    ]
-  }
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug 04-gpu",
+      "type": "gdb",
+      "request": "attach",
+      "target": "localhost:3333",
+      "remote": true,
+      "cwd": "${workspaceRoot}",
+      "valuesFormatting": "parseText",
+      "stopAtConnect": true,
+      "gdbpath": "gdb-multiarch",
+      "windows": {
+        "gdbpath": "gdb-multiarch.exe"
+      },
+      "osx": {
+        "gdbpath": "gdb"
+      },
+      "preLaunchTask": "Launch 04-gpu",
+      "executable": "${workspaceRoot}/04-gpu/gpu.elf",
+      "autorun": [
+        "monitor reset shellhalt",
+        "load ${workspaceRoot}/04-gpu/gpu.elf",
+        "tbreak main",
+        "continue"
+      ]
+    },
+  ]
+}

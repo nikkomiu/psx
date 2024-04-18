@@ -12,7 +12,6 @@ RUN apt-get install -y \
 
 # Install PCSX
 COPY PCSX-Redux-HEAD-x86_64.AppImage /
-COPY pcsx-redux /usr/local/bin
 RUN apt-get install -y freeglut3-dev && \
     /PCSX-Redux-HEAD-x86_64.AppImage --appimage-extract && \
     mv squashfs-root /usr/local/pcsx-redux && \

@@ -1,0 +1,37 @@
+{
+	// Place your snippets for jsonc here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	"Print to console": {
+		"prefix": "Debug PSX",
+		"body": [
+			"{",
+			"  \"name\": \"Debug $1\",",
+			"  \"type\": \"gdb\",",
+			"  \"request\": \"attach\",",
+			"  \"target\": \"localhost:3333\",",
+			"  \"remote\": true,",
+			"  \"cwd\": \"\\${workspaceRoot}\",",
+			"  \"valuesFormatting\": \"parseText\",",
+			"  \"stopAtConnect\": \"true\",",
+			"  \"gdbpath\": \"gdb-multiarch\",",
+			"  \"windows\": {",
+			"    \"gdbpath\": \"gdb-multiarch.exe\"",
+			"  },",
+			"  \"osx\": {",
+			"    \"gdbpath\": \"gdb\"",
+			"  },",
+			"  \"preLaunchTask\": \"Launch $1\",",
+			"  \"executable\": \"\\${workspaceRoot}/$1/$2.elf\",",
+			"  \"autorun\": [",
+			"    \"monitor reset shellhalt\",",
+			"    \"load \\${workspaceRoot}/04-gpu/gpu.elf\",",
+			"    \"tbreak main\",",
+			"    \"continue\",",
+			"  ]",
+			"}"
+		],
+		"description": "Log output to console"
+	}
+}

@@ -1,0 +1,51 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Launch pcsx-redux (Debug)",
+      "type": "process",
+      "command": "${workspaceFolder}/.devcontainer/pcsx-redux",
+      "args": [
+        "-stdout",
+        "-debugger",
+        "-gdb",
+        "-gdb-port",
+        "3333"
+      ],
+      "group": "test",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "pattern": {
+            "regexp": "^([^\\s].*)\\((\\d+|\\d+,\\d+|\\d+,\\d+,\\d+,\\d+)\\):\\s+(error|warning|info)\\s+(TS\\d+)\\s*:\\s*(.*)$",
+            "file": 1,
+            "location": 2,
+            "severity": 3,
+            "code": 4,
+            "message": 5
+          },
+          "background": {
+            "activeOnStart": false,
+            "beginsPattern": "Starting pcsx-redux...",
+            "endsPattern": "PCSX-Redux booting",
+          }
+        }
+      ]
+    },
+    {
+      "label": "Compile 04-gpu",
+      "type": "process",
+      "command": "make",
+      "options": {
+        "cwd": "${workspaceFolder}/04-gpu"
+      }
+    },
+    {
+      "label": "Launch 04-gpu",
+      "dependsOn": [
+        "Compile 04-gpu",
+        "Launch pcsx-redux (Debug)"
+      ]
+    }
+  ]
+}
