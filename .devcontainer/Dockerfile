@@ -1,11 +1,22 @@
 FROM ubuntu
 
-RUN apt-get update && apt-get install -y \
-    sudo curl wget zsh language-pack-en \
-    build-essential git make cmake unzip fuse \
+# Install zsh and locale (for zsh)
+RUN apt-get update && apt-get install -y zsh language-pack-en && update-locale LANG=en_US.UTF-8
+
+# Install dev dependencies
+RUN apt-get install -y \
+    sudo curl wget unzip gzip p7zip-full \
+    build-essential git make cmake \
     g++-mipsel-linux-gnu gdb-multiarch \
-    gzip p7zip-full python3 && \
-    update-locale LANG=en_US.UTF-8
+    python3
+
+# Install PCSX
+COPY PCSX-Redux-HEAD-x86_64.AppImage /
+COPY pcsx-redux /usr/local/bin
+RUN apt-get install -y freeglut3-dev && \
+    /PCSX-Redux-HEAD-x86_64.AppImage --appimage-extract && \
+    mv squashfs-root /usr/local/pcsx-redux && \
+    rm -rf /PCSX-Redux-HEAD-x86_64.AppImage
 
 # Install ARMIPS
 RUN git clone --recursive https://github.com/Kingcom/armips.git && \

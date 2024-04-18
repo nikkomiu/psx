@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cd /usr/local/pcsx-redux/usr/share/pcsx-redux/ && /usr/local/pcsx-redux/AppRun
