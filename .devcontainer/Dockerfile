@@ -2,9 +2,9 @@ FROM ubuntu
 
 RUN apt-get update && apt-get install -y \
     sudo curl wget zsh language-pack-en \
-    build-essential git make cmake \
+    build-essential git make cmake unzip fuse \
     g++-mipsel-linux-gnu gdb-multiarch \
-    gzip p7zip-full && \
+    gzip p7zip-full python3 && \
     update-locale LANG=en_US.UTF-8
 
 # Install ARMIPS
@@ -17,10 +17,14 @@ RUN git clone --recursive https://github.com/Kingcom/armips.git && \
     cd ../.. && \
     rm -rf armips
 
+# Install nugget
+RUN git clone --recursive https://github.com/pcsx-redux/nugget.git /usr/local/nugget && \
+    chmod -R 777 /usr/local/nugget
+
 # Install PsyQ
 RUN wget http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z && \
-    7z x psyq-4.7-converted-full.7z -o/var/lib/psyq && \
-    chmod -R 777 /var/lib/psyq && \
+    7z x psyq-4.7-converted-full.7z -o/usr/local/psyq && \
+    chmod -R 777 /usr/local/psyq && \
     rm -rf psyq-4.7-converted-full.7z
 
 # Setup user account

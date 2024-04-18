@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug 04-gpu",
+        "type": "gdb",
+        "request": "attach",
+        "target": "host.docker.internal:3333",
+        "remote": true,
+        "cwd": "${workspaceRoot}",
+        "valuesFormatting": "parseText",
+        "stopAtConnect": true,
+        "gdbpath": "gdb-multiarch",
+        "windows": {
+          "gdbpath": "gdb-multiarch.exe"
+        },
+        "osx": {
+          "gdbpath": "gdb"
+        },
+        "executable": "${workspaceRoot}/04-gpu/gpu.elf",
+        "autorun": [
+          "monitor reset shellhalt",
+          "load ${workspaceRootFolderName}.elf",
+          "tbreak main",
+          "continue"
+        ]
+      }
+    ]
+  }

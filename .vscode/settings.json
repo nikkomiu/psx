@@ -5,8 +5,9 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "**/*.{dep,elf,map,o}": true,
-        "thirdparty/": true,
+        "**/Thumbs.db": true
+    },
+    "files.associations": {
+        "libgpu.h": "c"
     }
 }

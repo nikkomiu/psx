@@ -1,4 +1,5 @@
-nolibgs_hello_worlds/
+*.bin
+!03-graphics/logo.bin
 
 *.dep
 *.elf

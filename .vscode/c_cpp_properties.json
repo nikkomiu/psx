@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "compilerPath": "${env:AppData}\\mips\\mips\\bin\\mipsel-none-elf-gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "defines": [
+                "__STDC_HOSTED__ = 0"
+            ],
+            "includePath": [
+                "${env:AppData}/mips/mips/include",
+                "${workspaceFolder}/",
+                "/usr/local/nugget/include",
+                "/usr/local/psyq/include"
+            ],
+            "intelliSenseMode": "gcc-x86"
+        },
+        {
+            "name": "linux",
+            "compilerPath": "/usr/bin/mipsel-linux-gnu-gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "defines": [
+                "__STDC_HOSTED__ = 0"
+            ],
+            "includePath": [
+                "/usr/mipsel-linux-gnu/include",
+                "/usr/local/nugget",
+                "/usr/local/psyq/include",
+                "${workspaceFolder}/"
+            ],
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}

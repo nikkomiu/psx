@@ -2,11 +2,12 @@
     "name": "ps1",
     "dockerFile": "Dockerfile",
     "workspaceFolder": "/workspaces/ps1",
-    "postCreateCommand": "sudo mkdir -p /workspaces/third_party && sudo ln -s /var/lib/psyq /workspaces/third_party/psyq",
     "customizations": {
         "vscode": {
             "extensions": [
-                "Grumpycoders.psx-dev"
+                "Grumpycoders.psx-dev",
+                "ms-vscode.cpptools-extension-pack",
+                "webfreak.debug"
             ]
         }
     }
