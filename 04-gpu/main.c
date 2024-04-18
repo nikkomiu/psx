@@ -29,8 +29,8 @@ void ScreenInit(void)
     SetDefDrawEnv(&screen.draw[0], 0, 240, SCREEN_RES_X, SCREEN_RES_Y);
 
     // Set the display area of the second buffer
-    SetDefDispEnv(&screen.disp[1], 0,   0, SCREEN_RES_X, SCREEN_RES_Y);
-    SetDefDrawEnv(&screen.draw[1], 0, 240, SCREEN_RES_X, SCREEN_RES_Y);
+    SetDefDispEnv(&screen.disp[1], 0, 240, SCREEN_RES_X, SCREEN_RES_Y);
+    SetDefDrawEnv(&screen.draw[1], 0,   0, SCREEN_RES_X, SCREEN_RES_Y);
 
     // Set the back/drawing buffer
     screen.draw[0].isbg = 1;
