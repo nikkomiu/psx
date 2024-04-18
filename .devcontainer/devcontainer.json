@@ -1,0 +1,13 @@
+{
+    "name": "ps1",
+    "dockerFile": "Dockerfile",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/ps1,type=bind,consistency=cached",
+    "workspaceFolder": "/workspaces/ps1",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Grumpycoders.psx-dev"
+            ]
+        }
+    }
+}

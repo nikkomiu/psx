@@ -1,0 +1,2 @@
+gpu:
+	$(MAKE) -C gpu

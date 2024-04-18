@@ -1,0 +1,7 @@
+nolibgs_hello_worlds/
+
+*.dep
+*.elf
+*.map
+*.o
+*.ps-exe
