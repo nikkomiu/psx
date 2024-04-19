@@ -31,9 +31,8 @@ RUN wget http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z && \
     rm -rf psyq-4.7-converted-full.7z
 
 # Install PCSX
-# COPY --from=pcsx-redux-build /out /usr/local/
-# COPY --from=pcsx-redux-build /lib/aarch64-linux-gnu/ /lib/aarch64-linux-gnu/
-# RUN apt-get install -y mesa-utils libgl1-mesa-glx
+COPY --from=ghcr.io/nikkomiu/pcsx-redux:main /usr/local/pcsx-redux /usr/local/
+RUN apt-get install -y mesa-utils libgl1-mesa-glx
 
 # Setup user account
 RUN useradd -m coder && \
