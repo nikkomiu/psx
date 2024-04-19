@@ -1,3 +1,20 @@
+FROM ubuntu:23.10 AS pcsx-redux-build
+
+RUN apt-get update && apt-get install -y \
+    build-essential git make pkg-config clang \
+    g++ g++-mipsel-linux-gnu cpp-mipsel-linux-gnu \
+    binutils-mipsel-linux-gnu libcapstone-dev libfreetype-dev \
+    libavcodec-dev libavformat-dev libavutil-dev libcurl4-openssl-dev \
+    libglfw3-dev libswresample-dev libuv1-dev zlib1g-dev
+
+WORKDIR /src/pcsx-redux
+RUN git clone --recursive https://github.com/grumpycoders/pcsx-redux.git . && \
+    git checkout 692929066633f729784e1e5b19f586d7ffec1f3f
+RUN make
+
+RUN apt-get install -y imagemagick
+RUN make install DESTDIR=/out
+
 FROM ubuntu
 
 # Install zsh and locale (for zsh)
@@ -9,13 +26,6 @@ RUN apt-get install -y \
     build-essential git make cmake \
     g++-mipsel-linux-gnu gdb-multiarch \
     python3
-
-# Install PCSX
-COPY PCSX-Redux-HEAD-x86_64.AppImage /
-RUN apt-get install -y freeglut3-dev && \
-    /PCSX-Redux-HEAD-x86_64.AppImage --appimage-extract && \
-    mv squashfs-root /usr/local/pcsx-redux && \
-    rm -rf /PCSX-Redux-HEAD-x86_64.AppImage
 
 # Install ARMIPS
 RUN git clone --recursive https://github.com/Kingcom/armips.git && \
@@ -36,6 +46,11 @@ RUN wget http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z && \
     7z x psyq-4.7-converted-full.7z -o/usr/local/psyq && \
     chmod -R 777 /usr/local/psyq && \
     rm -rf psyq-4.7-converted-full.7z
+
+# Install PCSX
+COPY --from=pcsx-redux-build /out /usr/local/
+COPY --from=pcsx-redux-build /lib/aarch64-linux-gnu/ /lib/aarch64-linux-gnu/
+RUN apt-get install -y mesa-utils libgl1-mesa-glx
 
 # Setup user account
 RUN useradd -m coder && \

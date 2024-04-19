@@ -2,11 +2,14 @@
 
 ARGS=$@
 
-cd /usr/local/pcsx-redux/usr/share/pcsx-redux/
+if [ ! -d /etc/pcsx-redux ]; then
+    sudo mkdir /etc/pcsx-redux
+fi
+cd /etc/pcsx-redux
 
 launch()
 {
-    DISPLAY=$1 /usr/local/pcsx-redux/AppRun $ARGS
+    DISPLAY=$1 pcsx-redux $ARGS
     if [ $? = "0" ]; then
         exit 0
     fi

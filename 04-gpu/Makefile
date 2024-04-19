@@ -2,4 +2,4 @@ TARGET = gpu
 
 SRCS = main.c
 
-include ../common.mk
+include ../scripts/common.mk
