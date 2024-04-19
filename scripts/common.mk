@@ -1,10 +1,25 @@
 # If you change this to exe, you'll have to rename the file ./thirdparty/nugget/ps-exe.ld too.
 TYPE = ps-exe
 
-NUGGETLIB := /usr/local/nugget
-PSYQLIB := /usr/local/psyq
-
 THISDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+LIBSEARCH_PATHS := third_party thirdparty ../thirdparty ../third_party ../../thirdparty ../../third_party /usr/local
+
+PSYQLIB_NAME := psyq
+ifndef PSYQLIB
+PSYQLIB := $(PSYQLIB_NAME)
+$(foreach dir,$(LIBSEARCH_PATHS),$(if $(wildcard $(dir)/$(TARGET_DIR)), \
+$(eval PSYQLIB := $(dir)/$(PSYQLIB_NAME)) \
+))
+endif
+
+NUGGETLIB_NAME := nugget
+ifndef NUGGETLIB
+NUGGETLIB := $(NUGGETLIB_NAME)
+$(foreach dir,$(LIBSEARCH_PATHS),$(if $(wildcard $(dir)/$(TARGET_DIR)), \
+$(eval NUGGETLIB := $(dir)/$(NUGGETLIB_NAME)) \
+))
+endif
 
 SRCS += $(NUGGETLIB)/common/crt0/crt0.s
 SRCS += $(NUGGETLIB)/common/syscalls/printf.s 

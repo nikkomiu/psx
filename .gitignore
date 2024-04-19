@@ -2,7 +2,9 @@
 !03-graphics/logo.bin
 
 *.dep
-*.elf
-*.map
 *.o
+*.map
+*.elf
 *.ps-exe
+
+bin/

@@ -2,7 +2,9 @@
 
 ## Development Requirements
 
-### MIPS Assembler
+### Required Software
+
+The following software is required to be in your `PATH`:
 
 - [ARMIPS Assembler](https://github.com/Kingcom/armips)
 
