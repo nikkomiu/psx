@@ -14,7 +14,7 @@
 			"  \"remote\": true,",
 			"  \"cwd\": \"\\${workspaceRoot}\",",
 			"  \"valuesFormatting\": \"parseText\",",
-			"  \"stopAtConnect\": \"true\",",
+			"  \"stopAtConnect\": true,",
 			"  \"gdbpath\": \"gdb-multiarch\",",
 			"  \"windows\": {",
 			"    \"gdbpath\": \"gdb-multiarch.exe\"",

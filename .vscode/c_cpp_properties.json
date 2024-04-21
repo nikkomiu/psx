@@ -18,7 +18,6 @@
         },
         {
             "name": "linux",
-            "compilerPath": "/usr/bin/mipsel-linux-gnu-gcc",
             "cStandard": "c17",
             "cppStandard": "c++20",
             "defines": [

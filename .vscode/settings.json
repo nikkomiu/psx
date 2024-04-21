@@ -6,5 +6,10 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true
-    }
+    },
+    "files.associations": {
+        "libetc.h": "c",
+        "types.h": "c"
+    },
+    "C_Cpp.default.compilerPath": "/usr/bin/mipsel-linux-gnu-gcc"
 }
