@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: apt-get install -y build-essential g++-mipsel-linux-gnu python3 curl unzip gzip p7zip-full
+        run: apt-get update && apt-get install -y build-essential g++-mipsel-linux-gnu python3 curl unzip gzip p7zip-full
       - name: Install ARMIPS
         run: |
           set -e
