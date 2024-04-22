@@ -76,7 +76,7 @@ void DisplayFrame(void)
     PutDrawEnv(&screen.draw[curbuff]);
 
     // Draw the ordering table
-    DrawOTag(ot[curbuff]);
+    DrawOTag(ot[curbuff] + OT_LENGTH - 1);
 
     // Swap current buffer
     curbuff = !curbuff;

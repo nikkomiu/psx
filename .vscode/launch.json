@@ -26,5 +26,30 @@
         "continue"
       ]
     },
+    {
+      "name": "Debug 05-gte",
+      "type": "gdb",
+      "request": "attach",
+      "target": "localhost:3333",
+      "remote": true,
+      "cwd": "${workspaceRoot}",
+      "valuesFormatting": "parseText",
+      "stopAtConnect": true,
+      "gdbpath": "gdb-multiarch",
+      "windows": {
+        "gdbpath": "gdb-multiarch.exe"
+      },
+      "osx": {
+        "gdbpath": "gdb"
+      },
+      "preLaunchTask": "Launch 05-gte",
+      "executable": "${workspaceRoot}/05-gte/gte.elf",
+      "autorun": [
+        "monitor reset shellhalt",
+        "load ${workspaceRoot}/05-gte/gte.elf",
+        "tbreak main",
+        "continue",
+      ]
+    }
   ]
 }

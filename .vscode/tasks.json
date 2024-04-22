@@ -61,7 +61,7 @@
     {
       "label": "Launch 05-gte",
       "dependsOn": [
-        "Compile 04-gte",
+        "Compile 05-gte",
         "Launch pcsx-redux (Debug)"
       ]
     }
