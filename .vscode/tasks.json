@@ -64,6 +64,21 @@
         "Compile 05-gte",
         "Launch pcsx-redux (Debug)"
       ]
-    }
+    },
+    {
+      "label": "Compile 06-joypad",
+      "type": "process",
+      "command": "make",
+      "options": {
+        "cwd": "${workspaceFolder}/06-joypad"
+      }
+    },
+    {
+      "label": "Launch 06-joypad",
+      "dependsOn": [
+        "Compile 06-joypad",
+        "Launch pcsx-redux (Debug)"
+      ]
+    },
   ]
 }

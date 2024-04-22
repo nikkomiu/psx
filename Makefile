@@ -1,4 +1,4 @@
-all: fillmem mips-warmup factorial graphics gpu gte
+all: fillmem mips-warmup factorial graphics gpu gte joypad
 
 fillmem:
 	$(MAKE) -C 00-fillmem
@@ -17,6 +17,9 @@ gpu:
 
 gte:
 	$(MAKE) -C 05-gte
+
+joypad:
+	$(MAKE) -C 06-joypad
 
 clean:
 	$(MAKE) -C 00-fillmem clean

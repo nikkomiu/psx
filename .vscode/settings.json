@@ -8,8 +8,11 @@
         "**/Thumbs.db": true
     },
     "files.associations": {
+        "*.uproject": "jsonc",
+        "*.uplugin": "jsonc",
         "libetc.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "pad.h": "c"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/mipsel-linux-gnu-gcc"
 }

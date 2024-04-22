@@ -2,6 +2,7 @@
 TYPE = ps-exe
 
 THISDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+SRCDIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 LIBSEARCH_PATHS := third_party thirdparty ../thirdparty ../third_party ../../thirdparty ../../third_party /usr/local
 
@@ -24,7 +25,7 @@ endif
 SRCS += $(NUGGETLIB)/common/crt0/crt0.s
 SRCS += $(NUGGETLIB)/common/syscalls/printf.s 
 
-CPPFLAGS += -I$(PSYQLIB)/include 
+CPPFLAGS += -I$(PSYQLIB)/include -I$(SRCDIR)
 LDFLAGS += -L$(NUGGETLIB)/psyq/lib -L$(PSYQLIB)/lib
 LDFLAGS += -Wl,--start-group
 LDFLAGS += -lapi
