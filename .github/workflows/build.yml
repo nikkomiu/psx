@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: debian-latest
     permissions:
       contents: read
       packages: write
@@ -37,3 +37,10 @@ jobs:
 
       - name: Build Binaries
         run: make all
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: binaries
+          path: '**/*.ps-exe'
+          if-no-files-found: error
+          retention-days: 7
