@@ -34,7 +34,7 @@ RUN wget http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z && \
 COPY --from=ghcr.io/nikkomiu/pcsx-redux:main /usr/local/pcsx-redux /usr/local/
 RUN apt-get install -y mesa-utils libgl1-mesa-glx
 
-# Setup user account
+# Set up user account
 RUN useradd -m coder && \
     usermod -aG sudo coder && \
     echo "%sudo ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/sudo && \
@@ -43,7 +43,7 @@ RUN useradd -m coder && \
 
 USER coder
 
-# Setup Oh My Zsh
+# Set up Oh My Zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
     sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/g' ~/.zshrc && \
     sed -i 's/plugins=(git)/plugins=(git npm)/g' ~/.zshrc && \

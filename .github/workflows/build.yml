@@ -1,0 +1,39 @@
+name: Build Binaries
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: debian-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: apt-get install -y build-essential g++-mipsel-linux-gnu python3 curl unzip gzip p7zip-full
+      - name: Install ARMIPS
+        run: |
+          set -e
+
+          git clone --recursive https://github.com/Kingcom/armips.git
+          mkdir -p armips/build && cd armips/build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake --build .
+          cp armips /usr/local/bin
+      - name: Install Nugget
+        run: git clone --recursive https://github.com/pcsx-redux/nugget.git /usr/local/nugget
+      - name: Install PsyQ
+        run: |
+          set -e
+          
+          wget http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z
+          7z x psyq-4.7-converted-full.7z -o/usr/local/psyq
+          chmod -R 777 /usr/local/psyq
+          rm -rf psyq-4.7-converted-full.7z
+
+      - name: Build Binaries
+        run: make all
