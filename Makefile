@@ -1,4 +1,4 @@
-all: fillmem mips-warmup factorial graphics gpu
+all: fillmem mips-warmup factorial graphics gpu gte
 
 fillmem:
 	$(MAKE) -C 00-fillmem
@@ -15,9 +15,13 @@ graphics:
 gpu:
 	$(MAKE) -C 04-gpu
 
+gte:
+	$(MAKE) -C 05-gte
+
 clean:
 	$(MAKE) -C 00-fillmem clean
 	$(MAKE) -C 01-mips-warmup clean
 	$(MAKE) -C 02-factorial clean
 	$(MAKE) -C 03-graphics clean
 	$(MAKE) -C 04-gpu clean
+	$(MAKE) -C 05-gte
