@@ -12,6 +12,9 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Print ENV
+        run: env
+
       - uses: actions/checkout@v2
       - name: Install Dependencies
         run: apt-get update && apt-get install -y build-essential g++-mipsel-linux-gnu python3 curl unzip gzip p7zip-full cmake
@@ -38,9 +41,7 @@ jobs:
       - name: Build Binaries
         run: make all
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: binaries
-          path: '**/*.ps-exe'
-          if-no-files-found: error
-          retention-days: 7
+      - name: Archive Binaries
+        run: tar -czf bin.tar.gz **/*.ps-exe
+      - name: Upload Binaries
+        run: curl --user ${{ secret.PACKAGE_USER }}:${{ secret.PACKAGE_PASS }} --upload-file bin.tar.gz https://git.0.miu.guru/api/packages/game-tutorial/generic/psx-bin/$(date +%s)/bin.tar.gz
