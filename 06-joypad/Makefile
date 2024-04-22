@@ -1,5 +1,5 @@
 TARGET = joypad
 
-SRCS = joypad.c main.c
+SRCS = global.c display.c joypad.c main.c
 
 include ../scripts/common.mk

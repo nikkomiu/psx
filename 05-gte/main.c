@@ -49,10 +49,10 @@ u_short curbuff;
 u_long ot[2][OT_LENGTH];
 
 char primbuff[2][PB_LENGTH];
-char *nextprim;
+char* nextprim;
 
-POLY_G4 *poly4;
-POLY_G3 *poly3;
+POLY_G4* poly4;
+POLY_G3* poly3;
 
 MATRIX world = {0};
 

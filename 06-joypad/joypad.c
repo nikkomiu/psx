@@ -1,4 +1,4 @@
-#include <joypad.h>
+#include "joypad.h"
 
 static u_long padstate = 0;
 

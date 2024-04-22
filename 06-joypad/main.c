@@ -3,17 +3,9 @@
 #include <libgte.h>
 #include <libgpu.h>
 
+#include "global.h"
+#include "display.h"
 #include "joypad.h"
-
-#define VIDEO_MODE 0
-#define SCREEN_RES_X 320
-#define SCREEN_RES_Y 240
-#define SCREEN_CENTER_X (SCREEN_RES_X >> 1)
-#define SCREEN_CENTER_Y (SCREEN_RES_Y >> 1)
-#define SCREEN_Z 320
-
-#define OT_LENGTH 2048
-#define PB_LENGTH 2048
 
 typedef struct
 {
@@ -38,22 +30,10 @@ typedef struct
     short faces[6];
 } Floor;
 
-typedef struct
-{
-    DRAWENV draw[2];
-    DISPENV disp[2];
-} DoubleBuff;
-
-DoubleBuff screen;
-u_short curbuff;
-
-u_long ot[2][OT_LENGTH];
-
 char primbuff[2][PB_LENGTH];
-char *nextprim;
 
-POLY_G4 *poly4;
-POLY_G3 *poly3;
+POLY_G4* poly4;
+POLY_G3* poly3;
 
 MATRIX world = {0};
 
@@ -104,67 +84,14 @@ Floor floor0 =
     }
 };
 
-void ScreenInit(void)
-{
-    // Reset GPU
-    ResetGraph(0);
-
-    // Set the display area of the first buffer
-    SetDefDispEnv(&screen.disp[0], 0,   0, SCREEN_RES_X, SCREEN_RES_Y);
-    SetDefDrawEnv(&screen.draw[0], 0, 240, SCREEN_RES_X, SCREEN_RES_Y);
-
-    // Set the display area of the second buffer
-    SetDefDispEnv(&screen.disp[1], 0, 240, SCREEN_RES_X, SCREEN_RES_Y);
-    SetDefDrawEnv(&screen.draw[1], 0,   0, SCREEN_RES_X, SCREEN_RES_Y);
-
-    // Set the back/drawing buffer
-    screen.draw[0].isbg = 1;
-    screen.draw[1].isbg = 1;
-
-    // Set the background clear color
-    setRGB0(&screen.draw[0], 63, 0, 127);
-    setRGB0(&screen.draw[1], 63, 0, 127);
-
-    // Set the current initial buffer
-    curbuff = 0;
-    PutDispEnv(&screen.disp[curbuff]);
-    PutDrawEnv(&screen.draw[curbuff]);
-
-    // Initialize and set up the GTE geometry offsets
-    InitGeom();
-    SetGeomOffset(SCREEN_CENTER_X, SCREEN_CENTER_Y);
-    SetGeomScreen(SCREEN_Z);
-
-    // Enable the display
-    SetDispMask(1);
-}
-
-void DisplayFrame(void)
-{
-    DrawSync(0);
-    VSync(0);
-
-    PutDispEnv(&screen.disp[curbuff]);
-    PutDrawEnv(&screen.draw[curbuff]);
-
-    // Draw the ordering table
-    DrawOTag(ot[curbuff] + OT_LENGTH - 1);
-
-    // Swap current buffer
-    curbuff = !curbuff;
-
-    // Reset the pointer to the next primitive
-    nextprim = primbuff[curbuff];
-}
-
 void Setup(void)
 {
-    ScreenInit();
+    DisplayInit();
 
     JoyPadInit();
 
     // Reset the pointer to the next primitive
-    nextprim = primbuff[curbuff];
+    ResetNextPrim(GetCurBuff());
 }
 
 void Update(void)
@@ -173,7 +100,7 @@ void Update(void)
     long otz, p, flag;
 
     // Clear the ordering table
-    ClearOTagR(ot[curbuff], OT_LENGTH);
+    EmptyOT(GetCurBuff());
 
     JoyPadUpdate();
 
@@ -215,7 +142,7 @@ void Update(void)
     // for each vertex of each face on the cube
     for (i = 0; i < 6 * 4; i += 4)
     {
-        poly4 = (POLY_G4*)nextprim;
+        poly4 = (POLY_G4*)GetNextPrim();
         setPolyG4(poly4);
         setRGB0(poly4, 255,   0, 255);
         setRGB1(poly4, 255, 255,   0);
@@ -240,8 +167,8 @@ void Update(void)
 
         if (otz > 0 && otz < OT_LENGTH)
         {
-            addPrim(ot[curbuff][otz], poly4);
-            nextprim += sizeof(POLY_G4);
+            addPrim(GetOTAt(GetCurBuff(), otz), poly4);
+            IncrementNextPrim(sizeof(POLY_G4));
         }
     }
 
@@ -257,7 +184,7 @@ void Update(void)
 
     for (i = 0; i < 2 * 3; i += 3)
     {
-        poly3 = (POLY_G3*)nextprim;
+        poly3 = (POLY_G3*)GetNextPrim();
         setPolyG3(poly3);
         setRGB0(poly3, 255, 0, 0);
         setRGB1(poly3, 0, 0, 255);
@@ -279,8 +206,8 @@ void Update(void)
 
         if (otz > 0 && otz < OT_LENGTH)
         {
-            addPrim(ot[curbuff][otz], poly3);
-            nextprim += sizeof(POLY_G3);
+            addPrim(GetOTAt(GetCurBuff(), otz), poly3);
+            IncrementNextPrim(sizeof(POLY_G3));
         }
     }
 }

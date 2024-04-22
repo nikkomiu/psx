@@ -26,11 +26,11 @@ u_short curbuff;
 u_long ot[2][OT_LENGTH];
 
 char primbuff[2][PB_LENGTH];
-char *nextprim;
+char* nextprim;
 
-POLY_F3 *tria0;
-TILE    *tile0;
-POLY_G4 *quad0;
+POLY_F3* tria0;
+TILE*    tile0;
+POLY_G4* quad0;
 
 void ScreenInit(void)
 {
@@ -98,7 +98,7 @@ void Update(void)
     // Clear the ordering table
     ClearOTagR(ot[curbuff], OT_LENGTH);
 
-    tile0 = (TILE *)nextprim;                          // Create next primitive
+    tile0 = (TILE*)nextprim;                          // Create next primitive
     setTile(tile0);                                    // Initialize the primitive
     setXY0(tile0, 82, 32);                             // Set the primitive (x, y) position
     setWH(tile0, 64, 64);                              // Set the primitive (w, h) size
@@ -106,14 +106,14 @@ void Update(void)
     addPrim(ot[curbuff], tile0);                       // Add the primitive to the ordering table
     nextprim += sizeof(TILE);                          // Move the pointer to the next primitive
 
-    tria0 = (POLY_F3 *)nextprim;                       // Create next primitive
+    tria0 = (POLY_F3*)nextprim;                       // Create next primitive
     setPolyF3(tria0);                                  // Initialize the primitive
     setXY3(tria0, 64, 100, 200, 150, 50, 220);         // Set the primitive (x1, y1, x2, y2, x3, y3) position
     setRGB0(tria0, 255, 0, 255);                       // Set the primitive color
     addPrim(ot[curbuff], tria0);                       // Add the primitive to the ordering table
     nextprim += sizeof(POLY_F3);                       // Move the pointer to the next primitive
 
-    quad0 = (POLY_G4 *)nextprim;                       // Create next primitive
+    quad0 = (POLY_G4*)nextprim;                       // Create next primitive
     setPolyG4(quad0);                                  // Initialize the primitive
     setXY4(quad0, 200, 20, 250, 35, 180, 50, 240, 80); // Set the primitive (x1, y1, x2, y2, x3, y3, x4, y4) position
     setRGB0(quad0, 255, 255, 0);                       // Set v0 color

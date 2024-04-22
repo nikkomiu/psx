@@ -5,14 +5,16 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/Thumbs.db": true
+        "**/Thumbs.db": true,
+        "**/*.{o,dep,map,elf}": true
     },
     "files.associations": {
         "*.uproject": "jsonc",
         "*.uplugin": "jsonc",
         "libetc.h": "c",
         "types.h": "c",
-        "pad.h": "c"
+        "pad.h": "c",
+        "libgpu.h": "c"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/mipsel-linux-gnu-gcc"
 }
