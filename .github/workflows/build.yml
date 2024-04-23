@@ -12,7 +12,8 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
       - name: Install Dependencies
         run: apt-get update && apt-get install -y build-essential g++-mipsel-linux-gnu python3 curl unzip gzip p7zip-full cmake
       - name: Install ARMIPS
@@ -49,13 +50,15 @@ jobs:
       - name: Build Binaries
         run: make all
 
-      - name: Archive Binaries
-        run: tar -czf bin.tar.gz **/*.ps-exe
+      # - name: Archive Binaries
+      #   run: tar -czf bin.tar.gz **/*.ps-exe
       - name: Upload Binaries
         run: |
-          curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' \
-            --upload-file bin.tar.gz \
-            $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-bin/$GITHUB_REF_NAME/bin.tar.gz
+          for f in **/*.ps-exe; do
+            curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' \
+              --upload-file $f \
+              $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-bin/$GITHUB_REF_NAME/$(basename $f)
+          done
 
       - name: Upload 06 JoyPad ISO
         run: |
