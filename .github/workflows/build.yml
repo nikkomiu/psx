@@ -67,7 +67,7 @@ jobs:
         run: |
           # Delete the old package
           curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' -X DELETE \
-            $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-bin/$GITHUB_REF_NAME
+            $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-iso/$GITHUB_REF_NAME
 
           set -e
           for f in **/*.iso; do
