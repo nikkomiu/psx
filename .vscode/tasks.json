@@ -80,5 +80,20 @@
         "Launch pcsx-redux (Debug)"
       ]
     },
+    {
+      "label": "Compile 07-cdrom",
+      "type": "process",
+      "command": "make",
+      "options": {
+        "cwd": "${workspaceFolder}/07-cdrom"
+      }
+    },
+    {
+      "label": "Launch 07-cdrom",
+      "dependsOn": [
+        "Compile 07-cdrom",
+        "Launch pcsx-redux (Debug)"
+      ]
+    },
   ]
 }

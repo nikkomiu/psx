@@ -63,7 +63,7 @@ $(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .da
 endef
 
 iso: all
-	mkpsxiso $(CDLAYOUT)
+	mkpsxiso -y $(CDLAYOUT)
 
 clean-iso:
 	-rm *.iso *.cue

@@ -75,6 +75,31 @@
        "tbreak main",
        "continue",
      ]
-   }
+   },
+  {
+    "name": "Debug 07-cdrom",
+    "type": "gdb",
+    "request": "attach",
+    "target": "localhost:3333",
+    "remote": true,
+    "cwd": "${workspaceRoot}",
+    "valuesFormatting": "parseText",
+    "stopAtConnect": true,
+    "gdbpath": "gdb-multiarch",
+    "windows": {
+      "gdbpath": "gdb-multiarch.exe"
+    },
+    "osx": {
+      "gdbpath": "gdb"
+    },
+    "preLaunchTask": "Launch 07-cdrom",
+    "executable": "${workspaceRoot}/07-cdrom/cdrom.elf",
+    "autorun": [
+      "monitor reset shellhalt",
+      "load ${workspaceRoot}/07-cdrom/cdrom.elf",
+      "tbreak main",
+      "continue",
+    ]
+  }
   ]
 }
