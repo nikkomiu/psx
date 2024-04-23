@@ -27,4 +27,5 @@ clean:
 	$(MAKE) -C 02-factorial clean
 	$(MAKE) -C 03-graphics clean
 	$(MAKE) -C 04-gpu clean
-	$(MAKE) -C 05-gte
+	$(MAKE) -C 05-gte clean
+	$(MAKE) -C 06-joypad clean

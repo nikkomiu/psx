@@ -50,18 +50,28 @@ jobs:
       - name: Build Binaries
         run: make all
 
-      # - name: Archive Binaries
-      #   run: tar -czf bin.tar.gz **/*.ps-exe
       - name: Upload Binaries
         run: |
+          # Delete the old package
+          curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' -X DELETE \
+            $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-bin/$GITHUB_REF_NAME
+
+          set -e
           for f in **/*.ps-exe; do
             curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' \
               --upload-file $f \
-              $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-bin/$GITHUB_REF_NAME/$(basename $f)
+              $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-bin/$GITHUB_REF_NAME/$(dirname $f)-$(basename $f)
           done
 
       - name: Upload 06 JoyPad ISO
         run: |
-          curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' \
-            --upload-file 06-joypad/GAME.iso \
-            $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-iso/$GITHUB_REF_NAME/joypad.iso
+          # Delete the old package
+          curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' -X DELETE \
+            $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-bin/$GITHUB_REF_NAME
+
+          set -e
+          for f in **/*.iso; do
+            curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' \
+              --upload-file $f \
+              $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-iso/$GITHUB_REF_NAME/$(dirname $f)-$(basename $f)
+          done

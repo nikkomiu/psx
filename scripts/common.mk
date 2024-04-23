@@ -66,7 +66,7 @@ iso: all
 	mkpsxiso $(CDLAYOUT)
 
 clean-iso:
-	rm *.iso *.cue
+	-rm *.iso *.cue
 
 # convert TIM file to bin
 %.o: %.tim
