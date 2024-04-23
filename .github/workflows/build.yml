@@ -45,3 +45,9 @@ jobs:
           curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' \
             --upload-file bin.tar.gz \
             $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-bin/$GITHUB_REF_NAME/bin.tar.gz
+
+      - name: Upload 06 JoyPad ISO
+        run: |
+          curl --header 'authorization: Bearer ${{ secrets.PACKAGE_PASS }}' \
+            --upload-file 06-joypad/GAME.iso \
+            $GITHUB_SERVER_URL/api/packages/$GITHUB_REPOSITORY_OWNER/generic/psx-iso/$GITHUB_REF_NAME/joypad.iso

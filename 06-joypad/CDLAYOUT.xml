@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iso_project image_name="GAME.iso" cue_sheet="GAME.cue" no_xa="0">
+    <track type="data">
+        <identifiers
+            system			="PLAYSTATION"
+            application		="PLAYSTATION"
+            volume			="MYDISC"
+            volume_set		="MYGAME"
+            publisher		="ME"
+            data_preparer	="MKPSXISO"
+            copyright		="COPYLEFT"
+        />
+
+        <license file="../shared/LCNSFILE/LICENSEE.DAT" />
+
+        <directory_tree>
+            <file name="SYSTEM.CNF"	type="data"	source="../shared/SYSTEM.TXT" />
+            <file name="MAIN.EXE"	type="data"	source="joypad.ps-exe" />
+            <file name="MODEL.BIN"  type="data" source="assets/model.bin" />
+
+            <dummy sectors="1024" />
+        </directory_tree>
+    </track>
+</iso_project>

@@ -1,5 +1,8 @@
 # If you change this to exe, you'll have to rename the file ./thirdparty/nugget/ps-exe.ld too.
 TYPE = ps-exe
+CDLAYOUT = CDLAYOUT.xml
+
+EXTRA_CLEAN = clean-iso
 
 THISDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SRCDIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
@@ -58,6 +61,12 @@ include $(NUGGETLIB)/common.mk
 define OBJCOPYME
 $(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips $< $@
 endef
+
+iso: all
+	mkpsxiso $(CDLAYOUT)
+
+clean-iso:
+	rm *.iso *.cue
 
 # convert TIM file to bin
 %.o: %.tim

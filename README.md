@@ -14,6 +14,12 @@ Docker-host connection.
 The following software is required to be in your `PATH`:
 
 - [ARMIPS Assembler](https://github.com/Kingcom/armips)
+- [mkpsxiso](https://github.com/Lameguy64/mkpsxiso)
+- `g++-mipsel-linux-gnu`
+
+The following software _should_ be in your path for debugging:
+
+- `gdb-multiarch`
 
 The following libraries need to be on your system:
 

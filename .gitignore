@@ -1,10 +1,11 @@
 *.bin
-!03-graphics/logo.bin
+!**/assets/*.bin
 
 *.dep
 *.o
 *.map
 *.elf
 *.ps-exe
+*.iso
 
 bin/

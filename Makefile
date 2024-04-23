@@ -19,7 +19,7 @@ gte:
 	$(MAKE) -C 05-gte
 
 joypad:
-	$(MAKE) -C 06-joypad
+	$(MAKE) -C 06-joypad iso
 
 clean:
 	$(MAKE) -C 00-fillmem clean

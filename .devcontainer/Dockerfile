@@ -34,6 +34,15 @@ RUN wget http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z && \
 COPY --from=ghcr.io/nikkomiu/pcsx-redux:main /usr/local/pcsx-redux /usr/local/
 RUN apt-get install -y mesa-utils libgl1-mesa-glx
 
+# Install mkpsxiso (for building PS1 ISOs)
+RUN wget https://github.com/Lameguy64/mkpsxiso/releases/download/v2.04/mkpsxiso-2.04-Linux.zip && \
+    unzip mkpsxiso-2.04-Linux.zip -d /usr/local/ && \
+    mv /usr/local/mkpsxiso* /usr/local/mkpsxiso && \
+    ln -s /usr/local/mkpsxiso/bin/mkpsxiso /usr/local/bin/mkpsxiso && \
+    ln -s /usr/local/mkpsxiso/bin/dumpsxiso /usr/local/bin/dumpsxiso && \
+    chmod +x /usr/local/bin/mkpsxiso /usr/local/bin/dumpsxiso && \
+    rm -rf mkpsxiso-2.04-Linux.zip
+
 # Set up user account
 RUN useradd -m coder && \
     usermod -aG sudo coder && \

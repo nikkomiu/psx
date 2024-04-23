@@ -93,7 +93,7 @@ LoopForever:
   nop
 
 Image:
-  .incbin "logo.dat"         ; include a 640x480 (total of 921,600 bytes)
+  .incbin "assets/logo.dat"         ; include a 640x480 (total of 921,600 bytes)
 
 End:
 

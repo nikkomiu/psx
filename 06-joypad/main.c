@@ -6,6 +6,9 @@
 #include "global.h"
 #include "display.h"
 #include "joypad.h"
+#include "camera.h"
+
+Camera camera;
 
 typedef struct
 {
@@ -35,7 +38,8 @@ char primbuff[2][PB_LENGTH];
 POLY_G4* poly4;
 POLY_G3* poly3;
 
-MATRIX world = {0};
+MATRIX worldmat = {0};
+MATRIX viewmat = {0};
 
 Cube cube0 =
 {
@@ -92,6 +96,11 @@ void Setup(void)
 
     // Reset the pointer to the next primitive
     ResetNextPrim(GetCurBuff());
+
+    camera.position.vx = 500;
+    camera.position.vy = -1000;
+    camera.position.vz = -1500;
+    camera.lookat = (MATRIX){0};
 }
 
 void Update(void)
@@ -104,13 +113,37 @@ void Update(void)
 
     JoyPadUpdate();
 
-    if (JoyPadCheck(PAD1_LEFT))
+    if (JoyPadCheck(PAD1_L1))
     {
         cube0.rot.vy -= 20;
     }
-    if (JoyPadCheck(PAD1_RIGHT))
+    if (JoyPadCheck(PAD1_R1))
     {
         cube0.rot.vy += 20;
+    }
+    if (JoyPadCheck(PAD1_LEFT))
+    {
+        camera.position.vx -= 50;
+    }
+    if (JoyPadCheck(PAD1_RIGHT))
+    {
+        camera.position.vx += 50;
+    }
+    if (JoyPadCheck(PAD1_UP))
+    {
+        camera.position.vy -= 50;
+    }
+    if (JoyPadCheck(PAD1_DOWN))
+    {
+        camera.position.vy += 50;
+    }
+    if (JoyPadCheck(PAD1_CROSS))
+    {
+        camera.position.vz += 50;
+    }
+    if (JoyPadCheck(PAD1_CIRCLE))
+    {
+        camera.position.vz -= 50;
     }
 
     // update position based on acc and vel
@@ -129,15 +162,20 @@ void Update(void)
         cube0.vel.vy *= -1;
     }
 
+    LookAt(&camera, &camera.position, &cube0.pos, &(VECTOR){0, -ONE, 0});
+
     ////////////////////////////////////////////
     // Draw the Cube                          //
     ////////////////////////////////////////////
-    RotMatrix(&cube0.rot, &world);     // Populate the world matrix with the current rotation values
-    TransMatrix(&world, &cube0.pos);   // Populate the world matrix with the current translation values
-    ScaleMatrix(&world, &cube0.scale); // Populate the world matrix with the current scale values
+    RotMatrix(&cube0.rot, &worldmat);     // Populate the world matrix with the current rotation values
+    TransMatrix(&worldmat, &cube0.pos);   // Populate the world matrix with the current translation values
+    ScaleMatrix(&worldmat, &cube0.scale); // Populate the world matrix with the current scale values
 
-    SetRotMatrix(&world);              // Sets the rotation matrix to be used by the GTE (RotTransPers)
-    SetTransMatrix(&world);            // Sets the translation matrix to be used by the GTE (RotTransPers)
+    // Create the view matrix by combining the world matrix and lookat matrix
+    CompMatrixLV(&camera.lookat, &worldmat, &viewmat);
+
+    SetRotMatrix(&viewmat);               // Sets the rotation matrix to be used by the GTE (RotTransPers)
+    SetTransMatrix(&viewmat);             // Sets the translation matrix to be used by the GTE (RotTransPers)
 
     // for each vertex of each face on the cube
     for (i = 0; i < 6 * 4; i += 4)
@@ -175,12 +213,15 @@ void Update(void)
     ////////////////////////////////////////////
     // Draw the Floor                         //
     ////////////////////////////////////////////
-    RotMatrix(&floor0.rot, &world);     // Populate the world matrix with the current rotation values
-    TransMatrix(&world, &floor0.pos);   // Populate the world matrix with the current translation values
-    ScaleMatrix(&world, &floor0.scale); // Populate the world matrix with the current scale values
+    RotMatrix(&floor0.rot, &worldmat);     // Populate the world matrix with the current rotation values
+    TransMatrix(&worldmat, &floor0.pos);   // Populate the world matrix with the current translation values
+    ScaleMatrix(&worldmat, &floor0.scale); // Populate the world matrix with the current scale values
 
-    SetRotMatrix(&world);               // Sets the rotation matrix to be used by the GTE (RotTransPers)
-    SetTransMatrix(&world);             // Sets the translation matrix to be used by the GTE (RotTransPers)
+    // Create the view matrix by combining the world matrix and lookat matrix
+    CompMatrixLV(&camera.lookat, &worldmat, &viewmat);
+
+    SetRotMatrix(&viewmat);                // Sets the rotation matrix to be used by the GTE (RotTransPers)
+    SetTransMatrix(&viewmat);              // Sets the translation matrix to be used by the GTE (RotTransPers)
 
     for (i = 0; i < 2 * 3; i += 3)
     {
