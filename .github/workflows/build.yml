@@ -34,6 +34,17 @@ jobs:
           7z x psyq-4.7-converted-full.7z -o/usr/local/psyq
           chmod -R 777 /usr/local/psyq
           rm -rf psyq-4.7-converted-full.7z
+      - name: Install mkpsxiso
+        run: |
+          set -e
+
+          wget https://github.com/Lameguy64/mkpsxiso/releases/download/v2.04/mkpsxiso-2.04-Linux.zip
+          unzip mkpsxiso-2.04-Linux.zip -d /usr/local/
+          mv /usr/local/mkpsxiso* /usr/local/mkpsxiso
+          ln -s /usr/local/mkpsxiso/bin/mkpsxiso /usr/local/bin/mkpsxiso
+          ln -s /usr/local/mkpsxiso/bin/dumpsxiso /usr/local/bin/dumpsxiso
+          chmod +x /usr/local/bin/mkpsxiso /usr/local/bin/dumpsxiso
+          rm -rf mkpsxiso-2.04-Linux.zip
 
       - name: Build Binaries
         run: make all
