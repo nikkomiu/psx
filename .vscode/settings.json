@@ -15,7 +15,10 @@
         "types.h": "c",
         "pad.h": "c",
         "libgpu.h": "c",
-        "libgte.h": "c"
+        "libgte.h": "c",
+        "util.h": "c",
+        "stdio.h": "c",
+        "global.h": "c"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/mipsel-linux-gnu-gcc"
 }

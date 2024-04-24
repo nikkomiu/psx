@@ -34,3 +34,18 @@ char* FileRead(char* filename, u_long* length)
     *length = filepos.size;
     return buffer;
 }
+
+char GetChar(u_char* bytes, u_long* offset)
+{
+    return bytes[(*offset)++];
+}
+
+short GetShortLE(u_char* bytes, u_long* offset)
+{
+    return bytes[(*offset)++] | (bytes[(*offset)++] << 8);
+}
+
+short GetShortBE(u_char* bytes, u_long* offset)
+{
+    return (bytes[(*offset)++] << 8) | bytes[(*offset)++];
+}

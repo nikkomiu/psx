@@ -84,6 +84,7 @@
       "label": "Compile 07-cdrom",
       "type": "process",
       "command": "make",
+      "args": ["iso"],
       "options": {
         "cwd": "${workspaceFolder}/07-cdrom"
       }

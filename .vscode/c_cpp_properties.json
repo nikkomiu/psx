@@ -28,7 +28,8 @@
                 "/usr/local/nugget",
                 "/usr/local/psyq/include",
                 "${workspaceFolder}/",
-                "${workspaceFolder}/06-joypad"
+                "${workspaceFolder}/06-joypad",
+                "${workspaceFolder}/07-cdrom"
             ],
             "intelliSenseMode": "gcc-x86"
         }

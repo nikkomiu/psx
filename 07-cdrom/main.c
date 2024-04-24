@@ -6,14 +6,16 @@
 #include <libcd.h>
 
 #include "global.h"
+#include "util.h"
+#include "object.h"
 #include "display.h"
 #include "joypad.h"
 #include "camera.h"
-#include "util.h"
 
 extern char __heap_start, __sp;
 
 Camera camera;
+Object object;
 
 typedef struct
 {
@@ -27,16 +29,6 @@ typedef struct
     SVECTOR verts[8];
     short faces[24];
 } Cube;
-
-typedef struct
-{
-    SVECTOR rot;
-    VECTOR  pos;
-    VECTOR  scale;
-
-    SVECTOR verts[4];
-    short faces[6];
-} Floor;
 
 char primbuff[2][PB_LENGTH];
 
@@ -75,24 +67,6 @@ Cube cube0 =
     }
 };
 
-Floor floor0 =
-{
-    .rot = {0, 0, 0},
-    .pos = {0, 450, 1800},
-    .scale = {ONE, ONE, ONE},
-
-    .verts = {
-        { -900, 0, -900 },
-        { -900, 0,  900 },
-        {  900, 0, -900 },
-        {  900, 0,  900 }
-    },
-    .faces = {
-        0, 1, 2,
-        1, 3, 2
-    }
-};
-
 void Setup(void)
 {
     InitHeap3((u_long*)&__heap_start, &__sp - 0x5000 - &__heap_start);
@@ -111,11 +85,7 @@ void Setup(void)
     camera.position.vz = -1500;
     camera.lookat = (MATRIX){0};
 
-    char* bytes;
-    u_long length;
-    bytes = FileRead("\\MODEL.BIN;1", &length);
-    printf("We read %ld bytes for MODEL.BIN\n", length);
-    free(bytes);
+    LoadObject("MODEL");
 }
 
 void Update(void)
@@ -159,22 +129,6 @@ void Update(void)
     if (JoyPadCheck(PAD1_CIRCLE))
     {
         camera.position.vz -= 50;
-    }
-
-    // update position based on acc and vel
-    cube0.vel.vx += cube0.acc.vx;
-    cube0.vel.vy += cube0.acc.vy;
-    cube0.vel.vz += cube0.acc.vz;
-
-    // Slow it down for DRAMA! (divide by 2)
-    cube0.pos.vx += cube0.vel.vx >> 1;
-    cube0.pos.vy += cube0.vel.vy >> 1;
-    cube0.pos.vz += cube0.vel.vz >> 1;
-
-    // Check for "collision" with the floor
-    if (cube0.pos.vy + 150 > floor0.pos.vy)
-    {
-        cube0.vel.vy *= -1;
     }
 
     LookAt(&camera, &camera.position, &cube0.pos, &(VECTOR){0, -ONE, 0});
@@ -222,48 +176,6 @@ void Update(void)
         {
             addPrim(GetOTAt(GetCurBuff(), otz), poly4);
             IncrementNextPrim(sizeof(POLY_G4));
-        }
-    }
-
-    ////////////////////////////////////////////
-    // Draw the Floor                         //
-    ////////////////////////////////////////////
-    RotMatrix(&floor0.rot, &worldmat);     // Populate the world matrix with the current rotation values
-    TransMatrix(&worldmat, &floor0.pos);   // Populate the world matrix with the current translation values
-    ScaleMatrix(&worldmat, &floor0.scale); // Populate the world matrix with the current scale values
-
-    // Create the view matrix by combining the world matrix and lookat matrix
-    CompMatrixLV(&camera.lookat, &worldmat, &viewmat);
-
-    SetRotMatrix(&viewmat);                // Sets the rotation matrix to be used by the GTE (RotTransPers)
-    SetTransMatrix(&viewmat);              // Sets the translation matrix to be used by the GTE (RotTransPers)
-
-    for (i = 0; i < 2 * 3; i += 3)
-    {
-        poly3 = (POLY_G3*)GetNextPrim();
-        setPolyG3(poly3);
-        setRGB0(poly3, 255, 0, 0);
-        setRGB1(poly3, 0, 0, 255);
-        setRGB2(poly3, 0, 255, 0);
-
-        nclip = RotAverageNclip3(
-            &floor0.verts[floor0.faces[i]],
-            &floor0.verts[floor0.faces[i+1]],
-            &floor0.verts[floor0.faces[i+2]],
-            (long*)&poly3->x0,
-            (long*)&poly3->x1,
-            (long*)&poly3->x2,
-            &p, &otz, &flag
-        );
-        if (nclip <= 0)
-        {
-            continue;
-        }
-
-        if (otz > 0 && otz < OT_LENGTH)
-        {
-            addPrim(GetOTAt(GetCurBuff(), otz), poly3);
-            IncrementNextPrim(sizeof(POLY_G3));
         }
     }
 }
