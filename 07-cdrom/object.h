@@ -8,6 +8,10 @@
 
 typedef struct
 {
+    SVECTOR rotation;
+    VECTOR position;
+    VECTOR scale;
+
     short numverts;
     SVECTOR* verts;
 
@@ -18,6 +22,6 @@ typedef struct
     CVECTOR* colors;
 } Object;
 
-Object LoadObject(char* filename);
+void LoadObjectData(Object* obj, char* filename);
 
 #endif

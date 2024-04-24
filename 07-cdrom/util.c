@@ -49,3 +49,13 @@ short GetShortBE(u_char* bytes, u_long* offset)
 {
     return (bytes[(*offset)++] << 8) | bytes[(*offset)++];
 }
+
+long GetLongLE(u_char* bytes, u_long* offset)
+{
+    return bytes[(*offset)++] | (bytes[(*offset)++] << 8) | (bytes[(*offset)++] << 16) | (bytes[(*offset)++] << 24);
+}
+
+long GetLongBE(u_char* bytes, u_long* offset)
+{
+    return (bytes[(*offset)++] << 24) | (bytes[(*offset)++] << 16) | (bytes[(*offset)++] << 8) | bytes[(*offset)++];
+}
